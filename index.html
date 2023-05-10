@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>LENINTOYS: Cyberbattles</title>
+        <script src="./js/script.js"></script>
+    </head>
+<body>
+    <h1>LENINTOYS! 🔥💧🌱</h1>
+
+    <section id="seleccionar-lenintoy">
+        <h2>Elige tu lenintoy</h2>
+        <label for="hipodoge"><input type="radio" id="hipodoge" name="lenintoys-opciones"/>Hipodoge</label>
+        <label for="cucho"><input type="radio" id="cucho" name="lenintoys-opciones"/>Cucho</label>
+        <label for="jimi"><input type="radio" id="jimi" name="lenintoys-opciones"/>Jimi</label>
+        <button id="boton-lenintoy">Seleccionar</button>
+    </section>
+
+    <section id="seleccionar-ataque">
+        <h2>Elige un ataque</h2>
+        <p>Tu lenintoy <span id="lenintoy-jugador"></span> tiene <span id="vidas-jugador">3</span> vidas.</p>
+        <p>El lenintoy <span id="lenintoy-enemigo"></span> del enemigo tiene <span id="vidas-enemigo">3</span> vidas.</p>
+        <p>
+            <button id="boton-agua">Agua 💧</button>
+            <button id="boton-fuego">Fuego 🔥</button>
+            <button id="boton-tierra">Tierra 🌱</button>
+        </p>
+    </section>
+
+    <section id="mensajes"></section>
+
+    <section id="reiniciar">
+        <p><button id="boton-reiniciar">Volver a jugar</button></p>
+    </section>
+</body>
+</html>

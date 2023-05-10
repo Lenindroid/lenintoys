@@ -1,0 +1,141 @@
+let ataqueJugador;
+let ataqueEnemigo;
+let vidasEnemigo = 3;
+let vidasJugador = 3;
+
+function iniciarJuego () {
+    let seccionAtaque = document.getElementById("seleccionar-ataque");
+    let seccionReiniciar = document.getElementById("reiniciar");
+    seccionAtaque.style.display = "none";
+    seccionReiniciar.style.display = "none";
+    let botonMascota = document.getElementById("boton-lenintoy");
+    botonMascota.addEventListener("click", seleccionarMascotaJugador);
+    let botonAgua = document.getElementById("boton-agua");
+    let botonFuego = document.getElementById("boton-fuego");
+    let botonTierra = document.getElementById("boton-tierra");
+    botonAgua.addEventListener("click", ataqueAgua);
+    botonFuego.addEventListener("click", ataqueFuego);
+    botonTierra.addEventListener("click", ataqueTierra);
+    let botonReiniciar = document.getElementById("boton-reiniciar");
+    botonReiniciar.addEventListener("click", reiniciarJuego);
+}
+
+function seleccionarMascotaJugador () {
+    let hipodoge = document.getElementById("hipodoge");
+    let cucho = document.getElementById("cucho");
+    let jimi = document.getElementById("jimi");
+    let spanLenintoyJugador = document.getElementById("lenintoy-jugador");
+    let seccionAtaque = document.getElementById("seleccionar-ataque");
+    let seccionLenintoy = document.getElementById("seleccionar-lenintoy");
+    seccionLenintoy.style.display = "none";
+
+    if (hipodoge.checked){
+        alert("Haz seleccionado al tierno lenintoy agua Hipodoge.");
+        spanLenintoyJugador.innerHTML = "Hipodoge";
+    } else if (cucho.checked) {
+        alert("Haz seleccionado al poderoso lenintoy tipo fuego Cucho.");
+        spanLenintoyJugador.innerHTML = "Cucho";
+    } else if (jimi.checked) {
+        alert("Haz seleccionado al divertido lenintoy tipo tierra Jimi.");
+        spanLenintoyJugador.innerHTML = "Jimi";
+    } else {
+        alert("SELECCIONA UN LENINTOY, PENDEJO")
+    }
+    seleccionarMascotaEnemigo ();
+    seccionAtaque.style.display = "block";
+}
+
+function seleccionarMascotaEnemigo () {
+    let spanLenintoyEnemigo = document.getElementById("lenintoy-enemigo");
+    let lenintoyEnemigo = random(1, 3);
+
+    if (lenintoyEnemigo == 1){
+        spanLenintoyEnemigo.innerHTML = "Hipodoge";
+    } if (lenintoyEnemigo == 2){
+        spanLenintoyEnemigo.innerHTML = "Cucho";
+    } else {
+        spanLenintoyEnemigo.innerHTML = "Jimi";
+    }
+}
+function random (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function ataqueAgua () {
+    ataqueJugador = "Agua";
+    atacaEnemigo();
+}
+
+function ataqueFuego () {
+    ataqueJugador = "Fuego";
+    atacaEnemigo();
+}
+
+function ataqueTierra () {
+    ataqueJugador = "Tierra";
+    atacaEnemigo();
+}
+
+function atacaEnemigo () {
+    ataqueAleatorio = random(1, 3);
+    if (ataqueAleatorio == 1){
+        ataqueEnemigo = "Agua";
+    } if (ataqueAleatorio == 2) {
+        ataqueEnemigo = "Fuego"
+    }else {
+        ataqueEnemigo = "Tierra"
+    }
+    combate();
+}
+
+function mensajes (resultado) {
+    let secccionMensajes = document.getElementById("mensajes");
+    let parrafo = document.createElement("p");
+    parrafo.innerHTML = "Tu lenintoy atacó con "+ ataqueJugador + ", mientras que la mascota del enemigo atacó con " + ataqueEnemigo + resultado;
+    secccionMensajes.appendChild(parrafo);
+}
+
+function mensajeFinal (resultadoFinal) {
+    let secccionMensajes = document.getElementById("mensajes");
+    let parrafo = document.createElement("p");
+    parrafo.innerHTML = resultadoFinal;
+    secccionMensajes.appendChild(parrafo);
+    let botonAgua = document.getElementById("boton-agua");
+    botonAgua.disabled = true;
+    let botonFuego = document.getElementById("boton-fuego");
+    botonFuego.disabled = true;
+    let botonTierra = document.getElementById("boton-tierra");
+    botonTierra.disabled = true;
+    let seccionReiniciar = document.getElementById("reiniciar");
+    seccionReiniciar.style.display = "block";
+}
+
+function revisarVidas (){
+    if (vidasEnemigo == 0){
+        mensajeFinal("Felcitaciones, tu lenintoy ha asesinado al lenintoy enemigo.");
+    } else if (vidasJugador == 0) {
+        mensajeFinal("Mis condolencias, tu lenintoy fue asesinado por el lenintoy enemigo.");
+    }
+}
+
+function combate () {
+    let spanVidasJugador = document.getElementById("vidas-jugador");
+    let spanVidasEnemigo = document.getElementById("vidas-enemigo");
+    if (ataqueJugador == ataqueEnemigo) {
+        mensajes (" ¡Ha sido un empate!");
+    } else if (ataqueJugador == "Agua" && ataqueEnemigo == "Fuego" || ataqueJugador == "Fuego" && ataqueEnemigo == "Tierra" || ataqueJugador == "Tierra" && ataqueEnemigo == "Agua") {
+        vidasEnemigo--;
+        spanVidasEnemigo.innerHTML = vidasEnemigo;
+        mensajes (" ¡Tu lenintoy ha ganado el combate!");
+    } else {
+        vidasJugador--;
+        spanVidasJugador.innerHTML = vidasJugador;
+        mensajes (" ¡El lenintoy enemigo es el ganador!");
+    }
+    revisarVidas();
+}
+
+function reiniciarJuego (){
+    location.reload();
+}
+window.addEventListener("load", iniciarJuego);
