@@ -20,14 +20,20 @@ body {
     font-family: 'Secular One', sans-serif;
     margin-bottom: 0;
     color: #F6F1F1;
+    font-size: 2em;
 }
 
 .header__h4 {
     font-family: 'Inconsolata', monospace;
     color: #AFD3E2;
+    font-size: 1em;
 }
 
 /*input[type="radio"] {
     display: none;
 }*/
+
+.tarjetas {
+
+}
   
