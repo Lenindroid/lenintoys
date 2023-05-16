@@ -8,8 +8,8 @@ function iniciarJuego () {
     let seccionReiniciar = document.getElementById("reiniciar");
     seccionAtaque.style.display = "none";
     seccionReiniciar.style.display = "none";
-    let botonMascota = document.getElementById("boton-lenintoy");
-    botonMascota.addEventListener("click", seleccionarMascotaJugador);
+    let botonLenintoy = document.getElementById("boton-lenintoy");
+    botonLenintoy.addEventListener("click", seleccionarLenintoyJugador);
     let botonAgua = document.getElementById("boton-agua");
     let botonFuego = document.getElementById("boton-fuego");
     let botonTierra = document.getElementById("boton-tierra");
@@ -20,7 +20,7 @@ function iniciarJuego () {
     botonReiniciar.addEventListener("click", reiniciarJuego);
 }
 
-function seleccionarMascotaJugador () {
+function seleccionarLenintoyJugador () {
     let hipodoge = document.getElementById("hipodoge");
     let cucho = document.getElementById("cucho");
     let jimi = document.getElementById("jimi");
@@ -41,11 +41,11 @@ function seleccionarMascotaJugador () {
     } else {
         alert("SELECCIONA UN LENINTOY, PENDEJO")
     }
-    seleccionarMascotaEnemigo ();
+    seleccionarLenintoyEnemigo ();
     seccionAtaque.style.display = "block";
 }
 
-function seleccionarMascotaEnemigo () {
+function seleccionarLenintoyEnemigo () {
     let spanLenintoyEnemigo = document.getElementById("lenintoy-enemigo");
     let lenintoyEnemigo = random(1, 3);
 
@@ -91,7 +91,7 @@ function atacaEnemigo () {
 function mensajes (resultado) {
     let secccionMensajes = document.getElementById("mensajes");
     let parrafo = document.createElement("p");
-    parrafo.innerHTML = "Tu lenintoy atacó con "+ ataqueJugador + ", mientras que la mascota del enemigo atacó con " + ataqueEnemigo + resultado;
+    parrafo.innerHTML = "Tu lenintoy atacó con "+ ataqueJugador + ", mientras que la Lenintoy del enemigo atacó con " + ataqueEnemigo + resultado;
     secccionMensajes.appendChild(parrafo);
 }
 
