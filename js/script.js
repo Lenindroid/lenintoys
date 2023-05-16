@@ -12,10 +12,10 @@ function iniciarJuego () {
     botonLenintoy.addEventListener("click", seleccionarLenintoyJugador);
     let botonAgua = document.getElementById("boton-agua");
     let botonFuego = document.getElementById("boton-fuego");
-    let botonTierra = document.getElementById("boton-tierra");
+    let botonPlanta = document.getElementById("boton-planta");
     botonAgua.addEventListener("click", ataqueAgua);
     botonFuego.addEventListener("click", ataqueFuego);
-    botonTierra.addEventListener("click", ataqueTierra);
+    botonPlanta.addEventListener("click", ataquePlanta);
     let botonReiniciar = document.getElementById("boton-reiniciar");
     botonReiniciar.addEventListener("click", reiniciarJuego);
 }
@@ -36,7 +36,7 @@ function seleccionarLenintoyJugador () {
         alert("Haz seleccionado al poderoso lenintoy tipo fuego Cucho.");
         spanLenintoyJugador.innerHTML = "Cucho";
     } else if (jimi.checked) {
-        alert("Haz seleccionado al divertido lenintoy tipo tierra Jimi.");
+        alert("Haz seleccionado al divertido lenintoy tipo planta Jimi.");
         spanLenintoyJugador.innerHTML = "Jimi";
     } else {
         alert("SELECCIONA UN LENINTOY, PENDEJO")
@@ -71,8 +71,8 @@ function ataqueFuego () {
     atacaEnemigo();
 }
 
-function ataqueTierra () {
-    ataqueJugador = "Tierra";
+function ataquePlanta () {
+    ataqueJugador = "Planta";
     atacaEnemigo();
 }
 
@@ -83,7 +83,7 @@ function atacaEnemigo () {
     } if (ataqueAleatorio == 2) {
         ataqueEnemigo = "Fuego"
     }else {
-        ataqueEnemigo = "Tierra"
+        ataqueEnemigo = "Planta"
     }
     combate();
 }
@@ -104,8 +104,8 @@ function mensajeFinal (resultadoFinal) {
     botonAgua.disabled = true;
     let botonFuego = document.getElementById("boton-fuego");
     botonFuego.disabled = true;
-    let botonTierra = document.getElementById("boton-tierra");
-    botonTierra.disabled = true;
+    let botonPlanta = document.getElementById("boton-planta");
+    botonPlanta.disabled = true;
     let seccionReiniciar = document.getElementById("reiniciar");
     seccionReiniciar.style.display = "block";
 }
@@ -123,7 +123,7 @@ function combate () {
     let spanVidasEnemigo = document.getElementById("vidas-enemigo");
     if (ataqueJugador == ataqueEnemigo) {
         mensajes (" ¡Ha sido un empate!");
-    } else if (ataqueJugador == "Agua" && ataqueEnemigo == "Fuego" || ataqueJugador == "Fuego" && ataqueEnemigo == "Tierra" || ataqueJugador == "Tierra" && ataqueEnemigo == "Agua") {
+    } else if (ataqueJugador == "Agua" && ataqueEnemigo == "Fuego" || ataqueJugador == "Fuego" && ataqueEnemigo == "Planta" || ataqueJugador == "Planta" && ataqueEnemigo == "Agua") {
         vidasEnemigo--;
         spanVidasEnemigo.innerHTML = vidasEnemigo;
         mensajes (" ¡Tu lenintoy ha ganado el combate!");
