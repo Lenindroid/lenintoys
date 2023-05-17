@@ -33,7 +33,53 @@ body {
     display: none;
 }*/
 
-.tarjetas {
-
+#seleccionar-lenintoy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
-  
+
+h2 {
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.5em;
+    display: block;
+    margin-bottom: 1.5vw;
+    margin-left: 1.5vw;
+    text-align: left;
+    color: rgb(175, 211, 226);
+}
+
+.tarjetas {
+    display: flex;
+    gap: 10px;
+}
+
+.tarjetas__label {
+    font-family: 'Roboto Slab', serif;
+    display: inline-block;
+    width: 180px;
+    height: 100px;
+    background-color: #19A7CE;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #F6F1F1;
+}
+
+.tarjetas img {
+    width: 50%;
+}
+
+.__seleccionar-lenintoy--boton{
+    background-color: #19A7CE;
+    border: 0;
+    width: 25%;
+    height: 5vh;
+    margin-top: 1.5vw;
+    color: #F6F1F1;
+    font-family: 'Roboto Slab', serif;
+}
