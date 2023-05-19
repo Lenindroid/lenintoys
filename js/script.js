@@ -3,6 +3,10 @@ let ataqueEnemigo;
 let vidasEnemigo = 3;
 let vidasJugador = 3;
 
+function aleatorio (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 function iniciarJuego () {
     let seccionAtaque = document.getElementById("seleccionar-ataque");
     let seccionReiniciar = document.getElementById("reiniciar");
@@ -11,10 +15,10 @@ function iniciarJuego () {
     let botonLenintoy = document.getElementById("boton-lenintoy");
     botonLenintoy.addEventListener("click", seleccionarLenintoyJugador);
     let botonAgua = document.getElementById("boton-agua");
-    let botonFuego = document.getElementById("boton-fuego");
-    let botonPlanta = document.getElementById("boton-planta");
     botonAgua.addEventListener("click", ataqueAgua);
+    let botonFuego = document.getElementById("boton-fuego");
     botonFuego.addEventListener("click", ataqueFuego);
+    let botonPlanta = document.getElementById("boton-planta");
     botonPlanta.addEventListener("click", ataquePlanta);
     let botonReiniciar = document.getElementById("boton-reiniciar");
     botonReiniciar.addEventListener("click", reiniciarJuego);
@@ -47,8 +51,7 @@ function seleccionarLenintoyJugador () {
 
 function seleccionarLenintoyEnemigo () {
     let spanLenintoyEnemigo = document.getElementById("lenintoy-enemigo");
-    let lenintoyEnemigo = random(1, 3);
-
+    let lenintoyEnemigo = aleatorio(1, 3);
     if (lenintoyEnemigo == 1){
         spanLenintoyEnemigo.innerHTML = "Hipodoge";
     } if (lenintoyEnemigo == 2){
@@ -57,10 +60,6 @@ function seleccionarLenintoyEnemigo () {
         spanLenintoyEnemigo.innerHTML = "Jimi";
     }
 }
-function random (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 function ataqueAgua () {
     ataqueJugador = "Agua";
     atacaEnemigo();
@@ -77,7 +76,7 @@ function ataquePlanta () {
 }
 
 function atacaEnemigo () {
-    ataqueAleatorio = random(1, 3);
+    let ataqueAleatorio = aleatorio(1, 3);
     if (ataqueAleatorio == 1){
         ataqueEnemigo = "Agua";
     } if (ataqueAleatorio == 2) {
