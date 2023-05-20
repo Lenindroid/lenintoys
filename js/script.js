@@ -30,8 +30,10 @@ function seleccionarLenintoyJugador () {
     let jimi = document.getElementById("jimi");
     let spanLenintoyJugador = document.getElementById("lenintoy-jugador");
     let seccionAtaque = document.getElementById("seleccionar-ataque");
+    let mensajeEleccion = document.getElementById("mensaje-eleccion");
     let seccionLenintoy = document.getElementById("seleccionar-lenintoy");
     seccionLenintoy.style.display = "none";
+    mensajeEleccion.style.display = "none";
 
     if (hipodoge.checked){
         alert("Haz seleccionado al tierno lenintoy agua Hipodoge.");
@@ -49,17 +51,18 @@ function seleccionarLenintoyJugador () {
     seccionAtaque.style.display = "block";
 }
 
-function seleccionarLenintoyEnemigo () {
+function seleccionarLenintoyEnemigo() {
     let spanLenintoyEnemigo = document.getElementById("lenintoy-enemigo");
     let lenintoyEnemigo = aleatorio(1, 3);
-    if (lenintoyEnemigo == 1){
-        spanLenintoyEnemigo.innerHTML = "Hipodoge";
-    } if (lenintoyEnemigo == 2){
-        spanLenintoyEnemigo.innerHTML = "Cucho";
+    if (lenintoyEnemigo == 1) {
+      spanLenintoyEnemigo.innerHTML = "Hipodoge";
+    } else if (lenintoyEnemigo == 2) {
+      spanLenintoyEnemigo.innerHTML = "Cucho";
     } else {
-        spanLenintoyEnemigo.innerHTML = "Jimi";
+      spanLenintoyEnemigo.innerHTML = "Jimi";
     }
 }
+  
 function ataqueAgua () {
     ataqueJugador = "Agua";
     atacaEnemigo();
@@ -79,7 +82,7 @@ function atacaEnemigo () {
     let ataqueAleatorio = aleatorio(1, 3);
     if (ataqueAleatorio == 1){
         ataqueEnemigo = "Agua";
-    } if (ataqueAleatorio == 2) {
+    } else if (ataqueAleatorio == 2) {
         ataqueEnemigo = "Fuego"
     }else {
         ataqueEnemigo = "Planta"
