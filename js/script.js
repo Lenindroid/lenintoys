@@ -92,9 +92,15 @@ function atacaEnemigo () {
 
 function mensajes (resultado) {
     let secccionMensajes = document.getElementById("mensajes");
-    let parrafo = document.createElement("p");
-    parrafo.innerHTML = "Tu lenintoy atacó con "+ ataqueJugador + ", mientras que la Lenintoy del enemigo atacó con " + ataqueEnemigo + resultado;
-    secccionMensajes.appendChild(parrafo);
+    let secccionResultado = document.getElementById("resultado");
+    let secccionAtaquesJugador = document.getElementById("ataques-jugador");
+    let seccionAtaquesEnemigo = document.getElementById("ataques-enemigo");
+
+    secccionMensajes.classList.replace('oculto', 'mensajes');
+
+    secccionResultado.innerHTML = resultado;
+    secccionAtaquesJugador.innerHTML = "Tu lenintoy usó " + ataqueJugador;
+    seccionAtaquesEnemigo.innerHTML = "El lenintoy enemigo usó " + ataqueEnemigo;
 }
 
 function mensajeFinal (resultadoFinal) {

@@ -104,3 +104,11 @@ body {
     background-color: #19A7CE;
     border-color: #F6F1F1;
 }
+
+.mensajes {
+    margin: 1em;
+    padding: 0.5em;
+    border: 8px double #F6F1F1;
+    color: #146C94;
+    background-color: #AFD3E2;
+}
