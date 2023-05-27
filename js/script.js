@@ -132,15 +132,15 @@ function combate () {
     let spanVidasJugador = document.getElementById("vidas-jugador");
     let spanVidasEnemigo = document.getElementById("vidas-enemigo");
     if (ataqueJugador == ataqueEnemigo) {
-        mensajes (" ¡Ha sido un empate!");
+        mensajes ("No tienen ningún efecto.");
     } else if (ataqueJugador == "Agua" && ataqueEnemigo == "Fuego" || ataqueJugador == "Fuego" && ataqueEnemigo == "Planta" || ataqueJugador == "Planta" && ataqueEnemigo == "Agua") {
         vidasEnemigo--;
         spanVidasEnemigo.innerHTML = vidasEnemigo;
-        mensajes (" ¡Tu lenintoy ha ganado el combate!");
+        mensajes ("¡El lenintoy enemigo ha perdido una vida!");
     } else {
         vidasJugador--;
         spanVidasJugador.innerHTML = vidasJugador;
-        mensajes (" ¡El lenintoy enemigo es el ganador!");
+        mensajes ("¡Tu lenintoy ha perdido una vida!");
     }
     revisarVidas();
 }
