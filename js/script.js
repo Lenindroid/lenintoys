@@ -8,10 +8,6 @@ function aleatorio (min, max) {
 }
 
 function iniciarJuego () {
-    let seccionAtaque = document.getElementById("seleccionar-ataque");
-    let seccionReiniciar = document.getElementById("reiniciar");
-    seccionAtaque.style.display = "none";
-    seccionReiniciar.style.display = "none";
     let botonLenintoy = document.getElementById("boton-lenintoy");
     botonLenintoy.addEventListener("click", seleccionarLenintoyJugador);
     let botonAgua = document.getElementById("boton-agua");
@@ -30,10 +26,12 @@ function seleccionarLenintoyJugador () {
     let jimi = document.getElementById("jimi");
     let spanLenintoyJugador = document.getElementById("lenintoy-jugador");
     let seccionAtaque = document.getElementById("seleccionar-ataque");
-    let mensajeEleccion = document.getElementById("mensaje-eleccion");
+    let mensajeEleccionLenintoy = document.getElementById("mensaje-eleccion-lenintoy");
+    let mensajeEleccionAtaque = document.getElementById("mensaje-eleccion-ataque");
     let seccionLenintoy = document.getElementById("seleccionar-lenintoy");
-    seccionLenintoy.style.display = "none";
-    mensajeEleccion.style.display = "none";
+    let seccionVidas = document.getElementById("vidas");
+    seccionLenintoy.classList.replace('body__seleccionar', 'oculto');
+    mensajeEleccionLenintoy.classList.replace('body__h2', 'oculto');
 
     if (hipodoge.checked){
         alert("Haz seleccionado al tierno lenintoy agua Hipodoge.");
@@ -48,7 +46,9 @@ function seleccionarLenintoyJugador () {
         alert("SELECCIONA UN LENINTOY, PENDEJO")
     }
     seleccionarLenintoyEnemigo ();
-    seccionAtaque.style.display = "block";
+    seccionVidas.classList.replace('oculto', 'vidas');
+    seccionAtaque.classList.replace('oculto', 'body__seleccionar');
+    mensajeEleccionAtaque.classList.replace('oculto', 'body__h2');
 }
 
 function seleccionarLenintoyEnemigo() {
@@ -109,7 +109,9 @@ function mensajeFinal (resultadoFinal) {
     let botonPlanta = document.getElementById("boton-planta");
     botonPlanta.disabled = true;
     let seccionReiniciar = document.getElementById("reiniciar");
+    let botonReiniciar = document.getElementById("boton-reiniciar");
     seccionReiniciar.style.display = "block";
+    botonReiniciar.classList.replace('oculto', 'boton--principal');
 }
 
 function revisarVidas (){

@@ -33,14 +33,14 @@ body {
     display: none;
 }*/
 
-#seleccionar-lenintoy {
+.body__seleccionar {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-h2 {
+.body__h2 {
     font-family: 'Roboto Slab', serif;
     font-size: 1.5em;
     display: block;
@@ -74,7 +74,7 @@ h2 {
     width: 50%;
 }
 
-.__seleccionar-lenintoy--boton{
+.boton--principal{
     background-color: #19A7CE;
     border: 0;
     width: 25%;
@@ -83,4 +83,24 @@ h2 {
     color: #F6F1F1;
     font-family: 'Roboto Slab', serif;
     border-radius: 20px;
+}
+
+.oculto {
+    display: none;
+}
+
+.vidas {
+    display: block;
+    margin-left: 1.4vw;
+    font-family: 'Inconsolata', monospace;
+    color: #AFD3E2;
+}
+
+.p__boton {
+    border-radius: 50%;
+    height: 15%;
+    width: 31%;
+    font-size: 4.2em;
+    background-color: #19A7CE;
+    border-color: #F6F1F1;
 }
