@@ -43,9 +43,9 @@ body {
 .body__h2 {
     font-family: 'Roboto Slab', serif;
     font-size: 1.5em;
-    display: block;
-    margin-bottom: 1.5vw;
-    margin-left: 1.5vw;
+    display: flex;
+    justify-content: center;
+    margin: 2vh auto;
     text-align: left;
     color: rgb(175, 211, 226);
 }
@@ -79,10 +79,11 @@ body {
     border: 0;
     width: 25%;
     height: 5vh;
-    margin-top: 1.5vw;
+    margin-top: 2vh;
     color: #F6F1F1;
     font-family: 'Roboto Slab', serif;
     border-radius: 20px;
+    font-size: 90%;
 }
 
 .oculto {
@@ -92,10 +93,9 @@ body {
 .vidas {
     display: flex;
     justify-content: space-between;
-    margin-left: 1.4vw;
+    margin: 2vh 1.4vw;
     font-family: 'Inconsolata', monospace;
     color: #AFD3E2;
-    padding: 0 5em;
 }
 
 .p__boton {
@@ -115,4 +115,14 @@ body {
     background-color: #AFD3E2;
     font-family: 'Inconsolata', monospace;
     font-weight: bold;
+}
+
+@media (max-width: 360px) {
+    .tarjetas {
+        flex-direction: column;
+    }
+
+    .vidas {
+        flex-direction: column;
+    }
 }
