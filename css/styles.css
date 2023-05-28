@@ -90,7 +90,8 @@ body {
 }
 
 .vidas {
-    display: block;
+    display: flex;
+    justify-content: space-between;
     margin-left: 1.4vw;
     font-family: 'Inconsolata', monospace;
     color: #AFD3E2;
@@ -111,4 +112,6 @@ body {
     border: 8px double #F6F1F1;
     color: #146C94;
     background-color: #AFD3E2;
+    font-family: 'Inconsolata', monospace;
+    font-weight: bold;
 }
