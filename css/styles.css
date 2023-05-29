@@ -29,9 +29,14 @@ body {
     font-size: 1em;
 }
 
-/*input[type="radio"] {
+input[type="radio"] {
     display: none;
-}*/
+}
+
+input:checked + label {
+    background-color: #F6F1F1;
+    color: #146C94;
+}
 
 .body__seleccionar {
     display: flex;
