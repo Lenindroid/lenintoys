@@ -1,3 +1,31 @@
+const botonLenintoy = document.getElementById("boton-lenintoy");
+const botonAgua = document.getElementById("boton-agua");
+const botonFuego = document.getElementById("boton-fuego");
+const botonPlanta = document.getElementById("boton-planta");
+const botonReiniciar = document.getElementById("boton-reiniciar");
+
+const hipodoge = document.getElementById("hipodoge");
+const cucho = document.getElementById("cucho");
+const jimi = document.getElementById("jimi");
+const spanLenintoyJugador = document.getElementById("lenintoy-jugador");
+const seccionAtaque = document.getElementById("seleccionar-ataque");
+const mensajeEleccionLenintoy = document.getElementById("mensaje-eleccion-lenintoy");
+const mensajeEleccionAtaque = document.getElementById("mensaje-eleccion-ataque");
+const seccionLenintoy = document.getElementById("seleccionar-lenintoy");
+const seccionVidas = document.getElementById("vidas");
+
+const spanLenintoyEnemigo = document.getElementById("lenintoy-enemigo");
+
+const secccionMensajes = document.getElementById("mensajes");
+const secccionResultado = document.getElementById("resultado");
+const secccionAtaquesJugador = document.getElementById("ataques-jugador");
+const seccionAtaquesEnemigo = document.getElementById("ataques-enemigo");
+
+const seccionReiniciar = document.getElementById("reiniciar");
+
+const spanVidasJugador = document.getElementById("vidas-jugador");
+const spanVidasEnemigo = document.getElementById("vidas-enemigo");
+
 let ataqueJugador;
 let ataqueEnemigo;
 let vidasEnemigo = 3;
@@ -7,29 +35,17 @@ function aleatorio (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+window.addEventListener("load", iniciarJuego);
+
 function iniciarJuego () {
-    let botonLenintoy = document.getElementById("boton-lenintoy");
     botonLenintoy.addEventListener("click", seleccionarLenintoyJugador);
-    let botonAgua = document.getElementById("boton-agua");
     botonAgua.addEventListener("click", ataqueAgua);
-    let botonFuego = document.getElementById("boton-fuego");
     botonFuego.addEventListener("click", ataqueFuego);
-    let botonPlanta = document.getElementById("boton-planta");
     botonPlanta.addEventListener("click", ataquePlanta);
-    let botonReiniciar = document.getElementById("boton-reiniciar");
     botonReiniciar.addEventListener("click", reiniciarJuego);
 }
 
 function seleccionarLenintoyJugador () {
-    let hipodoge = document.getElementById("hipodoge");
-    let cucho = document.getElementById("cucho");
-    let jimi = document.getElementById("jimi");
-    let spanLenintoyJugador = document.getElementById("lenintoy-jugador");
-    let seccionAtaque = document.getElementById("seleccionar-ataque");
-    let mensajeEleccionLenintoy = document.getElementById("mensaje-eleccion-lenintoy");
-    let mensajeEleccionAtaque = document.getElementById("mensaje-eleccion-ataque");
-    let seccionLenintoy = document.getElementById("seleccionar-lenintoy");
-    let seccionVidas = document.getElementById("vidas");
     seccionLenintoy.classList.replace('body__seleccionar', 'oculto');
     mensajeEleccionLenintoy.classList.replace('body__h2', 'oculto');
 
@@ -52,7 +68,6 @@ function seleccionarLenintoyJugador () {
 }
 
 function seleccionarLenintoyEnemigo() {
-    let spanLenintoyEnemigo = document.getElementById("lenintoy-enemigo");
     let lenintoyEnemigo = aleatorio(1, 3);
     if (lenintoyEnemigo == 1) {
       spanLenintoyEnemigo.innerHTML = "Hipodoge";
@@ -91,31 +106,19 @@ function atacaEnemigo () {
 }
 
 function mensajes (resultado) {
-    let secccionMensajes = document.getElementById("mensajes");
-    let secccionResultado = document.getElementById("resultado");
-    let secccionAtaquesJugador = document.getElementById("ataques-jugador");
-    let seccionAtaquesEnemigo = document.getElementById("ataques-enemigo");
-
     secccionMensajes.classList.replace('oculto', 'mensajes');
-
     secccionResultado.innerHTML = resultado;
     secccionAtaquesJugador.innerHTML = "Tu lenintoy usó " + ataqueJugador;
     seccionAtaquesEnemigo.innerHTML = "El lenintoy enemigo usó " + ataqueEnemigo;
 }
 
 function mensajeFinal (resultadoFinal) {
-    let secccionMensajes = document.getElementById("mensajes");
     let parrafo = document.createElement("p");
     parrafo.innerHTML = resultadoFinal;
     secccionMensajes.appendChild(parrafo);
-    let botonAgua = document.getElementById("boton-agua");
     botonAgua.disabled = true;
-    let botonFuego = document.getElementById("boton-fuego");
     botonFuego.disabled = true;
-    let botonPlanta = document.getElementById("boton-planta");
     botonPlanta.disabled = true;
-    let seccionReiniciar = document.getElementById("reiniciar");
-    let botonReiniciar = document.getElementById("boton-reiniciar");
     seccionReiniciar.style.display = "block";
     botonReiniciar.classList.replace('oculto', 'boton--principal');
 }
@@ -129,8 +132,6 @@ function revisarVidas (){
 }
 
 function combate () {
-    let spanVidasJugador = document.getElementById("vidas-jugador");
-    let spanVidasEnemigo = document.getElementById("vidas-enemigo");
     if (ataqueJugador == ataqueEnemigo) {
         mensajes ("No tienen ningún efecto.");
     } else if (ataqueJugador == "Agua" && ataqueEnemigo == "Fuego" || ataqueJugador == "Fuego" && ataqueEnemigo == "Planta" || ataqueJugador == "Planta" && ataqueEnemigo == "Agua") {
@@ -148,4 +149,4 @@ function combate () {
 function reiniciarJuego (){
     location.reload();
 }
-window.addEventListener("load", iniciarJuego);
+
