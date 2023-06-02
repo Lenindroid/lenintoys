@@ -105,8 +105,8 @@ input:checked + label {
 
 .p__boton {
     border-radius: 50%;
-    height: 15%;
-    width: 31%;
+    height: 15vh;
+    width: 9vw;
     font-size: 4.2em;
     background-color: #19A7CE;
     border-color: #F6F1F1;

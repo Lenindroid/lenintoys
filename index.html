@@ -10,26 +10,12 @@
 <body>
     <header class="header">
         <h1 class="header__h1">LENINTOYS! 🔥💧🌱</h1>
-        <h4 class="header__h4">Cyberbattles (v1.0.4)</h4>
+        <h4 class="header__h4">Cyberbattles (v1.1)</h4>
     </header>
     <h2 id="mensaje-eleccion-lenintoy" class="body__h2">Elige tu lenintoy</h2>
     <section id="seleccionar-lenintoy" class="body__seleccionar">
-        <div class="tarjetas">
-            <input type="radio" id="hipodoge" name="lenintoys-opciones"/>
-            <label for="hipodoge" class="tarjetas__label">
-                <p>Hipodoge</p> 
-                <img src="./assets/hipodoge.svg"/>
-            </label>
-            <input type="radio" id="cucho" name="lenintoys-opciones"/>
-            <label for="cucho" class="tarjetas__label">
-                <p>Cucho</p>
-                <img src="./assets/cucho.svg"/>
-            </label>
-            <input type="radio" id="jimi" name="lenintoys-opciones"/>
-            <label for="jimi" class="tarjetas__label"> 
-                <p>Jimi</p>
-                <img src="./assets/jimi.svg"/>
-            </label>
+        <div id="contenedor-tarjetas" class="tarjetas">
+            
         </div>
         <button id="boton-lenintoy" class="boton--principal">Seleccionar</button>
     </section>
@@ -39,13 +25,7 @@
         <p class="seleccionar-ataque__vidas"><span id="lenintoy-jugador"></span> aliado ❤️<span id="vidas-jugador">3</span> vidas.</p>
         <p class="seleccionar-ataque__vidas"><span id="lenintoy-enemigo"></span> enemigo ❤️<span id="vidas-enemigo">3</span> vidas.</p>
     </section>
-    <section id="seleccionar-ataque" class="oculto">
-        <p>
-            <button id="boton-agua" class="p__boton" title="Ataca con agua">💧</button>
-            <button id="boton-fuego" class="p__boton" title="Ataca con fuego">🔥</button>
-            <button id="boton-planta" class="p__boton" title="Ataca con planta">🌱</button>
-        </p>
-    </section>
+    <section id="seleccionar-ataque" class="oculto"></section>
 
     <section id="mensajes" class="oculto">
         <p id="ataques-jugador"></p> 
