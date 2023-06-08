@@ -118,7 +118,8 @@ function seleccionarLenintoyJugador () {
         spanLenintoyJugador.innerHTML = jimiInput.id;
         lenintoyJugador = jimiInput.id;
     } else {
-        alert('SELECCIONA UN LENINTOY, PENDEJO')
+        alert('SELECCIONA UN LENINTOY, PENDEJO');
+        reiniciarJuego();
     }
     seccionVidas.classList.replace('oculto', 'vidas');
     seccionAtaque.classList.replace('oculto', 'body__seleccionar');
@@ -169,16 +170,15 @@ function secuenciaAtaque (){
                 console.log(ataqueJugador);
                 boton.disabled = true;
             }
+            atacaEnemigo();
         })
-        atacaEnemigo();
     }) 
-    
 }
 
 function seleccionarLenintoyEnemigo() {
     let lenintoyEnemigo = aleatorio(0, lenintoys.length - 1);
     spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigo].nombre;
-    ataqueEnemigo = lenintoys[lenintoyEnemigo].ataques;
+    ataquesEnemigo = lenintoys[lenintoyEnemigo].ataques;
     secuenciaAtaque();
 }
 
