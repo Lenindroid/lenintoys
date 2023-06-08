@@ -22,8 +22,9 @@ const spanVidasEnemigo = document.getElementById('vidas-enemigo');
 const contenedorTarjetas = document.getElementById('contenedor-tarjetas');
 
 let lenintoys = [];
-let ataqueJugador;
+let ataqueJugador = [];
 let ataqueEnemigo;
+let ataquesEnemigo;
 let vidasEnemigo = 3;
 let vidasJugador = 3;
 let opcionDeLenintoys;
@@ -35,6 +36,7 @@ let jimiInput;
 let botonAgua;
 let botonFuego;
 let botonPlanta;
+let botones = [];
 
 class Lenintoy {
     constructor(nombre, foto, vida) {
@@ -140,46 +142,54 @@ function extraerAtaques (lenintoyJugador) {
 function mostrarAtaques (ataques) {
     ataques.forEach((ataques) => {
         opcionDeAtaques =  `
-                <button id=${ataques.id} class="p__boton" title="Ataca con ${ataques.nombre}">${ataques.emoji}</button>
+                <button id=${ataques.id} class="p__boton bAtaque" title="Ataca con ${ataques.nombre}">${ataques.emoji}</button>
         `
         seccionAtaque.innerHTML += opcionDeAtaques;
     });
     botonAgua = document.getElementById('boton-agua');
     botonFuego = document.getElementById('boton-fuego');
     botonPlanta = document.getElementById('boton-planta');
-    botonAgua.addEventListener('click', ataqueAgua);
-    botonFuego.addEventListener('click', ataqueFuego);
-    botonPlanta.addEventListener('click', ataquePlanta);
+    botones= document.querySelectorAll('.bAtaque');
+}
+
+function secuenciaAtaque (){
+    botones.forEach((boton) => {
+        boton.addEventListener('click', (e) =>{ //e es el evento mismo 
+            if (e.target.textContent === '🔥') {
+                ataqueJugador.push('FUEGO');
+                console.log(ataqueJugador);
+                boton.disabled = true;
+            }
+            else if (e.target.textContent === '💧') {
+                ataqueJugador.push('AGUA');
+                console.log(ataqueJugador);
+                boton.disabled = true;
+            } else {
+                ataqueJugador.push('TIERRA');
+                console.log(ataqueJugador);
+                boton.disabled = true;
+            }
+        })
+        atacaEnemigo();
+    }) 
+    
 }
 
 function seleccionarLenintoyEnemigo() {
     let lenintoyEnemigo = aleatorio(0, lenintoys.length - 1);
     spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigo].nombre;
-}
-  
-function ataqueAgua () {
-    ataqueJugador = 'Agua';
-    atacaEnemigo();
-}
-
-function ataqueFuego () {
-    ataqueJugador = 'Fuego';
-    atacaEnemigo();
-}
-
-function ataquePlanta () {
-    ataqueJugador = 'Planta';
-    atacaEnemigo();
+    ataqueEnemigo = lenintoys[lenintoyEnemigo].ataques;
+    secuenciaAtaque();
 }
 
 function atacaEnemigo () {
-    let ataqueAleatorio = aleatorio(1, 3);
-    if (ataqueAleatorio == 1){
-        ataqueEnemigo = 'Agua';
-    } else if (ataqueAleatorio == 2) {
-        ataqueEnemigo = 'Fuego'
+    let ataqueAleatorio = aleatorio(0, lenintoys.length - 1);
+    if (ataqueAleatorio == 0 || ataqueAleatorio == 1){
+        ataqueEnemigo.push('Agua');
+    } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
+        ataqueEnemigo.push('Fuego');
     }else {
-        ataqueEnemigo = 'Planta'
+        ataqueEnemigo.push('Planta');
     }
     combate();
 }
