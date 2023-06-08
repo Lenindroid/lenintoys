@@ -23,7 +23,7 @@ const contenedorTarjetas = document.getElementById('contenedor-tarjetas');
 
 let lenintoys = [];
 let ataqueJugador = [];
-let ataqueEnemigo;
+let ataqueEnemigo = [];
 let ataquesEnemigo;
 let vidasEnemigo = 3;
 let vidasJugador = 3;
@@ -183,7 +183,7 @@ function seleccionarLenintoyEnemigo() {
 }
 
 function atacaEnemigo () {
-    let ataqueAleatorio = aleatorio(0, lenintoys.length - 1);
+    let ataqueAleatorio = aleatorio(0, ataquesEnemigo.length - 1);
     if (ataqueAleatorio == 0 || ataqueAleatorio == 1){
         ataqueEnemigo.push('Agua');
     } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
@@ -191,6 +191,7 @@ function atacaEnemigo () {
     }else {
         ataqueEnemigo.push('Planta');
     }
+    console.log(ataqueEnemigo);
     combate();
 }
 
