@@ -157,17 +157,14 @@ function secuenciaAtaque (){
     botones.forEach((boton) => {
         boton.addEventListener('click', (e) =>{ //e es el evento mismo 
             if (e.target.textContent === '🔥') {
-                ataqueJugador.push('FUEGO');
-                console.log(ataqueJugador);
+                ataqueJugador.push('Fuego');
                 boton.disabled = true;
             }
             else if (e.target.textContent === '💧') {
-                ataqueJugador.push('AGUA');
-                console.log(ataqueJugador);
+                ataqueJugador.push('Agua');
                 boton.disabled = true;
             } else {
-                ataqueJugador.push('TIERRA');
-                console.log(ataqueJugador);
+                ataqueJugador.push('Planta');
                 boton.disabled = true;
             }
             atacaEnemigo();
@@ -198,8 +195,8 @@ function atacaEnemigo () {
 function mensajes (resultado) {
     secccionMensajes.classList.replace('oculto', 'mensajes');
     secccionResultado.innerHTML = resultado;
-    secccionAtaquesJugador.innerHTML = 'Tu lenintoy usó ' + ataqueJugador;
-    seccionAtaquesEnemigo.innerHTML = 'El lenintoy enemigo usó ' + ataqueEnemigo;
+    secccionAtaquesJugador.innerHTML = 'Tu lenintoy usó ' + ataqueJugador[ataqueJugador.length - 1];
+    seccionAtaquesEnemigo.innerHTML = 'El lenintoy enemigo usó ' + ataqueEnemigo[ataqueEnemigo.length - 1];
 }
 
 function mensajeFinal (resultadoFinal) {
@@ -222,9 +219,9 @@ function revisarVidas (){
 }
 
 function combate () {
-    if (ataqueJugador == ataqueEnemigo) {
+    if (ataqueJugador[ataqueJugador.length - 1] == ataqueEnemigo[ataqueEnemigo.length - 1]) {
         mensajes ('No tienen ningún efecto.');
-    } else if (ataqueJugador == 'Agua' && ataqueEnemigo == 'Fuego' || ataqueJugador == 'Fuego' && ataqueEnemigo == 'Planta' || ataqueJugador == 'Planta' && ataqueEnemigo == 'Agua') {
+    } else if (ataqueJugador[ataqueJugador.length - 1] == 'Agua' && ataqueEnemigo[ataqueEnemigo.length - 1] == 'Fuego' || ataqueJugador[ataqueJugador.length - 1] == 'Fuego' && ataqueEnemigo[ataqueEnemigo.length - 1] == 'Planta' || ataqueJugador[ataqueJugador.length - 1] == 'Planta' && ataqueEnemigo[ataqueEnemigo.length - 1] == 'Agua') {
         vidasEnemigo--;
         spanVidasEnemigo.innerHTML = vidasEnemigo;
         mensajes ('¡El lenintoy enemigo ha perdido una vida!');
@@ -239,4 +236,3 @@ function combate () {
 function reiniciarJuego (){
     location.reload();
 }
-
