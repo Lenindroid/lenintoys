@@ -16,7 +16,7 @@ body {
     align-items: center;
 }
 
-.header__h1 {
+.header__h1, .vs {
     font-family: 'Secular One', sans-serif;
     margin-bottom: 0;
     color: #F6F1F1;
@@ -84,7 +84,7 @@ input:checked + label {
     border: 0;
     width: 25%;
     height: 5vh;
-    margin-top: 2vh;
+    margin: 2vh;
     color: #F6F1F1;
     font-family: 'Roboto Slab', serif;
     border-radius: 20px;
@@ -97,7 +97,8 @@ input:checked + label {
 
 .vidas {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     margin: 2vh 1.4vw;
     font-family: 'Inconsolata', monospace;
     color: #AFD3E2;
@@ -105,11 +106,22 @@ input:checked + label {
 
 .p__boton {
     border-radius: 50%;
-    height: 15vh;
+    height: 9vw;
     width: 9vw;
+    margin: 0.5rem;
     font-size: 4.2em;
-    background-color: #19A7CE;
     border-color: #F6F1F1;
+    overflow: hidden;
+}
+
+.batalla {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.batalla article {
+    padding: 1rem;
 }
 
 .mensajes {
@@ -129,5 +141,13 @@ input:checked + label {
 
     .vidas {
         flex-direction: column;
+    }
+
+    .batalla {
+        flex-direction: column;
+    }
+
+    #contenedor-barras {
+        display: hidden;
     }
 }

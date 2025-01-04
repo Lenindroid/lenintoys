@@ -5,3 +5,4 @@
 - [ ] General changes
     - [ ] New acomodation
     - [ ] New health bar
+    - [ ] Remove draw

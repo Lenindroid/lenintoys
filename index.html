@@ -10,7 +10,7 @@
 <body>
     <header class="header">
         <h1 class="header__h1">LENINTOYS! 🔥💧🌱</h1>
-        <h4 class="header__h4">Cyberbattles (v1.1.4)</h4>
+        <h4 class="header__h4">Cyberbattles (v1.1)</h4>
     </header>
     <h2 id="mensaje-eleccion-lenintoy" class="body__h2">Elige tu lenintoy</h2>
     <section id="seleccionar-lenintoy" class="body__seleccionar">
@@ -20,11 +20,28 @@
         <button id="boton-lenintoy" class="boton--principal">Seleccionar</button>
     </section>
 
-    <h2 id="mensaje-eleccion-ataque" class="oculto">Elige un ataque</h2>
+    <section id="mostrar-lenintoy" class="oculto">
+        <article>
+            <img src="" id="lenintoy-aliado">
+        </article>
+        <article>
+            <p class="vs">VS</p>
+        </article>
+        <article>
+            <img src="" id="Lenintoy-enemigo">
+        </article>
+    </section>
+
+    
+    <section class="oculto" id="contenedor-barras">
+        <progress value="3" max="3" class="barras" id="barra-aliado"></progress>
+        <progress value="3" max="3" class="barras" id="barra-enemigo"></progress>
+    </section>
     <section id="vidas" class="oculto">
         <p class="seleccionar-ataque__vidas"><span id="lenintoy-jugador"></span> aliado ❤️<span id="vidas-jugador">3</span> vidas.</p>
         <p class="seleccionar-ataque__vidas"><span id="lenintoy-enemigo"></span> enemigo ❤️<span id="vidas-enemigo">3</span> vidas.</p>
     </section>
+    <h2 id="mensaje-eleccion-ataque" class="oculto">Elige un ataque</h2>
     <section id="seleccionar-ataque" class="oculto"></section>
 
     <section id="mensajes" class="oculto">
