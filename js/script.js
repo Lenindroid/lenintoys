@@ -98,7 +98,7 @@ function iniciarJuego () {
             <input type="radio" id=${lenintoy.nombre} name="lenintoys-opciones"/>
             <label for=${lenintoy.nombre} class="tarjetas__label">
                 <p>${lenintoy.nombre}</p> 
-                <img src=${lenintoy.foto} alt=${lenintoy.nombre.toLowerCase()}/>
+                <img src=${lenintoy.foto} alt=${lenintoy.nombre}/>
             </label>
         `
         contenedorTarjetas.innerHTML += opcionDeLenintoys;
@@ -118,17 +118,17 @@ function seleccionarLenintoyJugador () {
         alert('Haz seleccionado al tierno lenintoy agua Hipodoge.');
         spanLenintoyJugador.innerHTML = hipodogeInput.id;
         lenintoyJugador = hipodogeInput.id;
-        lenintoyAliado.src = './assets/hipodoge.svg';
+        lenintoyAliado.src = hipodoge.foto;
     } else if (cuchoInput.checked) {
         alert('Haz seleccionado al poderoso lenintoy tipo fuego Cucho.');
         spanLenintoyJugador.innerHTML = cuchoInput.id;
         lenintoyJugador = cuchoInput.id;
-        lenintoyAliado.src = './assets/cucho.svg';
+        lenintoyAliado.src = cucho.foto;
     } else if (jimiInput.checked) {
         alert('Haz seleccionado al divertido lenintoy tipo planta Jimi.');
         spanLenintoyJugador.innerHTML = jimiInput.id;
         lenintoyJugador = jimiInput.id;
-        lenintoyAliado.src = './assets/jimi.svg';
+        lenintoyAliado.src = jimi.foto;
     } else {
         alert('SELECCIONA UN LENINTOY, PENDEJO');
         reiniciarJuego();
