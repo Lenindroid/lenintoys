@@ -193,7 +193,7 @@ function seleccionarLenintoyEnemigo() {
     let lenintoyEnemigo = aleatorio(0, lenintoys.length - 1);
     spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigo].nombre;
     ataquesEnemigo = lenintoys[lenintoyEnemigo].ataques;
-    LenintoyEnemigo.src = './assets/' + lenintoys[lenintoyEnemigo].nombre + '.svg';
+    LenintoyEnemigo.src = lenintoys[lenintoyEnemigo].foto;
     secuenciaAtaque();
 }
 
