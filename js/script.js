@@ -98,7 +98,7 @@ function iniciarJuego () {
             <input type="radio" id=${lenintoy.nombre} name="lenintoys-opciones"/>
             <label for=${lenintoy.nombre} class="tarjetas__label">
                 <p>${lenintoy.nombre}</p> 
-                <img src=${lenintoy.foto} alt=${lenintoy.nombre}/>
+                <img src=${lenintoy.foto} alt=${lenintoy.nombre.toLowerCase()}/>
             </label>
         `
         contenedorTarjetas.innerHTML += opcionDeLenintoys;
