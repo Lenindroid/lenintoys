@@ -46,7 +46,6 @@ let botonAgua;
 let botonFuego;
 let botonPlanta;
 let botones = [];
-let lenintoyEnemigoIndex = aleatorio(0, lenintoys.length - 1);
 
 class Lenintoy {
     constructor(nombre, foto, vida) {
@@ -86,6 +85,7 @@ jimi.ataques.push(
 )
 
 lenintoys.push(hipodoge, cucho, jimi);
+let lenintoyEnemigoIndex = aleatorio(0, lenintoys.length - 1);
 
 function aleatorio (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -191,7 +191,6 @@ function secuenciaAtaque (){
 }
 
 function seleccionarLenintoyEnemigo() {
-    
     spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigoIndex].nombre;
     ataquesEnemigo = lenintoys[lenintoyEnemigoIndex].ataques;
     LenintoyEnemigo.src = lenintoys[lenintoyEnemigoIndex].foto;
@@ -200,8 +199,8 @@ function seleccionarLenintoyEnemigo() {
 
 function atacaEnemigo () {
     let ataqueAleatorio = aleatorio(0, ataquesEnemigo.length - 1);
-    ataqueEnemigo.push(lenintoys[lenintoyEnemigoIndex].ataques[ataqueAleatorio].nombre);
-    //console.log(ataqueEnemigo);
+    ataqueEnemigo.push(ataquesEnemigo[ataqueAleatorio].nombre);
+    ataquesEnemigo.splice(ataqueAleatorio, 1);
     combate();
 }
 
