@@ -46,6 +46,7 @@ let botonAgua;
 let botonFuego;
 let botonPlanta;
 let botones = [];
+let lenintoyEnemigoIndex = aleatorio(0, lenintoys.length - 1);
 
 class Lenintoy {
     constructor(nombre, foto, vida) {
@@ -61,27 +62,27 @@ let cucho = new Lenintoy('Cucho', './assets/cucho.svg', 5);
 let jimi = new Lenintoy('Jimi', './assets/jimi.svg', 5);
 
 hipodoge.ataques.push(
-    { emoji: '💧', id: 'boton-agua', nombre: 'agua', color: '#269' },
-    { emoji:'💧', id: 'boton-agua', nombre: 'agua', color: '#269' },
-    { emoji:'💧', id: 'boton-agua', nombre: 'agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'planta', color: '#466832' }
+    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
 )
 
 cucho.ataques.push(
-    { emoji: '💧', id: 'boton-agua', nombre: 'agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'fuego', color: '#ff1f00' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'fuego', color: '#ff1f00' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'planta', color: '#466832' }
+    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
 )
 
 jimi.ataques.push(
-    { emoji:'💧', id: 'boton-agua', nombre: 'agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'planta', color: '#466832' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'planta', color: '#466832' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'planta', color: '#466832' }
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
 )
 
 lenintoys.push(hipodoge, cucho, jimi);
@@ -190,23 +191,17 @@ function secuenciaAtaque (){
 }
 
 function seleccionarLenintoyEnemigo() {
-    let lenintoyEnemigo = aleatorio(0, lenintoys.length - 1);
-    spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigo].nombre;
-    ataquesEnemigo = lenintoys[lenintoyEnemigo].ataques;
-    LenintoyEnemigo.src = lenintoys[lenintoyEnemigo].foto;
+    
+    spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigoIndex].nombre;
+    ataquesEnemigo = lenintoys[lenintoyEnemigoIndex].ataques;
+    LenintoyEnemigo.src = lenintoys[lenintoyEnemigoIndex].foto;
     secuenciaAtaque();
 }
 
 function atacaEnemigo () {
     let ataqueAleatorio = aleatorio(0, ataquesEnemigo.length - 1);
-    if (ataqueAleatorio == 0 || ataqueAleatorio == 1){
-        ataqueEnemigo.push('Agua');
-    } else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
-        ataqueEnemigo.push('Fuego');
-    }else {
-        ataqueEnemigo.push('Planta');
-    }
-    console.log(ataqueEnemigo);
+    ataqueEnemigo.push(lenintoys[lenintoyEnemigoIndex].ataques[ataqueAleatorio].nombre);
+    //console.log(ataqueEnemigo);
     combate();
 }
 
