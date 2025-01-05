@@ -29,6 +29,9 @@ const contenedorBarras = document.querySelector('#contenedor-barras');
 const barraAliado = document.querySelector('#barra-aliado');
 const barraEnemigo = document.querySelector('#barra-enemigo');
 
+const seccionMapa = document.querySelector('#ver-mapa');
+const mapa = document.querySelector('#mapa');
+
 let lenintoys = [];
 let ataqueJugador = [];
 let ataqueEnemigo = [];
