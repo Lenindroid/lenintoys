@@ -3,14 +3,14 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>LENINTOYS: Cyberbattles (Alfa)</title>
+        <title>LENINTOYS: Cyberbattles (Beta)</title>
         <link rel="stylesheet" href="./css/normalize.css"/>
         <link rel="stylesheet" href="./css/styles.css"/>
     </head>
 <body>
     <header class="header">
         <h1 class="header__h1">LENINTOYS! 🔥💧🌱</h1>
-        <h4 class="header__h4">Cyberbattles (v1.2.4)</h4>
+        <h4 class="header__h4">Cyberbattles (v1.2.7)</h4>
     </header>
     <h2 id="mensaje-eleccion-lenintoy" class="body__h2">Elige tu lenintoy</h2>
     <section id="seleccionar-lenintoy" class="body__seleccionar">
@@ -54,9 +54,15 @@
         <p class="body__seleccionar"><button id="boton-reiniciar" class="oculto">Volver a jugar</button></p>
     </section>
 
-    <section id="ver-mapa">
-        <p>Recorre el mapa con tu lenintoy.</p>
+    <section id="ver-mapa" class="oculto">
+        <h2 class="body__h2">Recorre el mapa con tu lenintoy.</h2>
         <canvas id="mapa"></canvas>
+        <button onpointerup="detenerMovimiento()" onpointerdown="moverArriba()" class="mover">⭡</button>
+        <div class="costados">
+            <button onpointerup="detenerMovimiento()" onpointerdown="moverIzquierda()" class="mover">⬅</button>
+            <button onpointerup="detenerMovimiento()" onpointerdown="moverDerecha()" class="mover">⮕</button>
+        </div>
+        <button onpointerup="detenerMovimiento()" onpointerdown="moverAbajo()" class="mover">⬇</button>
     </section>
     <script src="./js/script.js"></script>
 </body>

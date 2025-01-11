@@ -38,6 +38,21 @@ input:checked + label {
     color: #146C94;
 }
 
+.seccion-mapa {
+    display: flex;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1em;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgb(175, 211, 226);
+}
+
+#mapa {
+    border: 2px solid white;
+}
+
 .body__seleccionar {
     display: flex;
     flex-direction: column;
@@ -150,4 +165,20 @@ input:checked + label {
     #contenedor-barras {
         display: hidden;
     }
+}
+
+.costados {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.mover {
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    margin: 0.5rem;
+    background-color: #19A7CE;
+    border: none;
+    color: #fff;
 }

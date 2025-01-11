@@ -31,8 +31,10 @@ const barraEnemigo = document.querySelector('#barra-enemigo');
 
 const seccionMapa = document.querySelector('#ver-mapa');
 const mapa = document.querySelector('#mapa');
+const lienzo = mapa.getContext('2d');
 
 let lenintoys = [];
+let lenintoysEnemigos = [];
 let ataqueJugador = [];
 let ataqueEnemigo = [];
 let ataquesEnemigo;
@@ -49,19 +51,49 @@ let botonAgua;
 let botonFuego;
 let botonPlanta;
 let botones = [];
+let intervalo;
+let mapaBackground = new Image()
+mapaBackground.src = './assets/mapa-bueno.jpg'
+let miLenintoy;
+let alturaMapa;
+let anchoMapa = window.innerWidth - 20;
+alturaMapa = (anchoMapa * 600) / 800;
+mapa.width = anchoMapa;
+mapa.height = alturaMapa;
+
+const anchoMaximo = 350;
+if (anchoMapa > anchoMaximo) anchoMapa = anchoMaximo - 20;
 
 class Lenintoy {
-    constructor(nombre, foto, vida) {
+    constructor(nombre, foto, vida, fotoCara, x = 10 , y = 10) {
         this.nombre = nombre;
         this.foto = foto;
         this.vida = vida;
+        this.x = x;
+        this.y = y;
         this.ataques = [];
+        this.ancho = 80;
+        this.alto = 80;
+        this.fotoMapa = new Image();
+        this.fotoMapa.src = fotoCara;
+        this.velocidadX = 0;
+        this.velocidadY = 0;
+    }
+
+    renderizar() {
+        lienzo.drawImage(
+            this.fotoMapa, 
+            this.x, 
+            this.y, 
+            this.alto,
+            this.ancho
+        );
     }
 }
 
-let hipodoge = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5);
-let cucho = new Lenintoy('Cucho', './assets/cucho.svg', 5);
-let jimi = new Lenintoy('Jimi', './assets/jimi.svg', 5);
+let hipodoge = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hipodoge-cara.svg');
+let cucho = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg');
+let jimi = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
 
 hipodoge.ataques.push(
     { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
@@ -87,8 +119,37 @@ jimi.ataques.push(
     { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
 )
 
+let hipodogeEnemigo = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hipodoge-cara.svg');
+let cuchoEnemigo = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg');
+let jimiEnemigo = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
+
+hipodogeEnemigo.ataques.push(
+    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
+)
+
+cuchoEnemigo.ataques.push(
+    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
+)
+
+jimiEnemigo.ataques.push(
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
+)
+
 lenintoys.push(hipodoge, cucho, jimi);
-let lenintoyEnemigoIndex = aleatorio(0, lenintoys.length - 1);
+lenintoysEnemigos.push(hipodogeEnemigo, cuchoEnemigo, jimiEnemigo);
+let lenintoyEnemigoIndex = aleatorio(0, lenintoysEnemigos.length - 1);
 
 function aleatorio (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -114,22 +175,46 @@ function iniciarJuego () {
     botonReiniciar.addEventListener('click', reiniciarJuego);
 }
 
+function teclaPresionada(event) {
+    switch (event.key) {
+        case 'w':
+        case 'W':
+        case 'ArrowUp':
+            moverArriba();
+            break;
+        case 'A':
+        case 'a':
+        case 'ArrowRight':
+            moverDerecha();
+            break;
+        case 'D':
+        case 'd':
+        case 'ArrowLeft':
+            moverIzquierda();
+            break;
+        case 'S':
+        case 's':
+        case 'ArrowDown':
+            moverAbajo();
+    }
+}
+
 function seleccionarLenintoyJugador () {
     seccionLenintoy.classList.replace('body__seleccionar', 'oculto');
     mensajeEleccionLenintoy.classList.replace('body__h2', 'oculto');
 
     if (hipodogeInput.checked){
-        alert('Haz seleccionado al tierno lenintoy agua Hipodoge.');
+        console.log('Haz seleccionado al tierno lenintoy agua Hipodoge.');
         spanLenintoyJugador.innerHTML = hipodogeInput.id;
         lenintoyJugador = hipodogeInput.id;
         lenintoyAliado.src = hipodoge.foto;
     } else if (cuchoInput.checked) {
-        alert('Haz seleccionado al poderoso lenintoy tipo fuego Cucho.');
+        console.log('Haz seleccionado al poderoso lenintoy tipo fuego Cucho.');
         spanLenintoyJugador.innerHTML = cuchoInput.id;
         lenintoyJugador = cuchoInput.id;
         lenintoyAliado.src = cucho.foto;
     } else if (jimiInput.checked) {
-        alert('Haz seleccionado al divertido lenintoy tipo planta Jimi.');
+        console.log('Haz seleccionado al divertido lenintoy tipo planta Jimi.');
         spanLenintoyJugador.innerHTML = jimiInput.id;
         lenintoyJugador = jimiInput.id;
         lenintoyAliado.src = jimi.foto;
@@ -137,11 +222,9 @@ function seleccionarLenintoyJugador () {
         alert('SELECCIONA UN LENINTOY, PENDEJO');
         reiniciarJuego();
     }
-    seccionVidas.classList.replace('oculto', 'vidas');
-    contenedorBarras.classList.replace('oculto', 'vidas');
-    seccionAtaque.classList.replace('oculto', 'body__seleccionar');
-    mensajeEleccionAtaque.classList.replace('oculto', 'body__h2');
-    contenedorLenintoys.classList.replace('oculto', 'batalla');
+    iniciarMapa();
+    seccionMapa.classList.replace('oculto', 'seccion-mapa');
+    intervalo = setInterval(renderizar, 50);
     seccionAtaque.style.flexDirection = "row";
     extraerAtaques(lenintoyJugador);
     seleccionarLenintoyEnemigo ();
@@ -194,9 +277,9 @@ function secuenciaAtaque (){
 }
 
 function seleccionarLenintoyEnemigo() {
-    spanLenintoyEnemigo.innerHTML = lenintoys[lenintoyEnemigoIndex].nombre;
-    ataquesEnemigo = lenintoys[lenintoyEnemigoIndex].ataques;
-    LenintoyEnemigo.src = lenintoys[lenintoyEnemigoIndex].foto;
+    spanLenintoyEnemigo.innerHTML = lenintoysEnemigos[lenintoyEnemigoIndex].nombre;
+    ataquesEnemigo = lenintoysEnemigos[lenintoyEnemigoIndex].ataques;
+    LenintoyEnemigo.src = lenintoysEnemigos[lenintoyEnemigoIndex].foto;
     secuenciaAtaque();
 }
 
@@ -256,4 +339,85 @@ function combate () {
 
 function reiniciarJuego (){
     location.reload();
+}
+
+function renderizar() {
+    miLenintoy.x += miLenintoy.velocidadX;
+    miLenintoy.y += miLenintoy.velocidadY;
+    lienzo.clearRect(0, 0, mapa.width, mapa.height);
+    lienzo.drawImage(
+        mapaBackground, 
+        0,
+        0,
+        mapa.width,
+        mapa.height
+    );
+    miLenintoy.renderizar();
+    lenintoysEnemigos[lenintoyEnemigoIndex].x = 300;
+    lenintoysEnemigos[lenintoyEnemigoIndex].y = 250;
+    lenintoysEnemigos[lenintoyEnemigoIndex].renderizar();
+    if (miLenintoy.velocidadX || miLenintoy.velocidadY) revisarColision(lenintoysEnemigos[lenintoyEnemigoIndex]);
+}
+
+function moverArriba() {
+    miLenintoy.velocidadY = -5;
+}
+
+function moverIzquierda() {
+    miLenintoy.velocidadX = -5;
+}
+
+function moverAbajo() {
+    miLenintoy.velocidadY = 5;
+}
+
+function moverDerecha() {
+    miLenintoy.velocidadX = 5;
+}
+
+function detenerMovimiento() {
+    miLenintoy.velocidadX = 0;
+    miLenintoy.velocidadY = 0;
+}
+
+function iniciarMapa() {
+    miLenintoy = obtenerObjetoLenintoy();
+    window.addEventListener('keydown', teclaPresionada);
+    window.addEventListener('keyup', detenerMovimiento);
+}
+
+function obtenerObjetoLenintoy () {
+    for (let i = 0; i < lenintoys.length; i++) {
+        if (lenintoyJugador == lenintoys[i].nombre){
+            return lenintoys[i];
+        }
+    }
+}
+
+function revisarColision(enemigo) {
+    const arribaLenintoyEnemigo = enemigo.y;
+    const abajoLenintoyEnemigo = enemigo.y + enemigo.alto;
+    const derechaLenintoyEnemigo = enemigo.x + enemigo.ancho;
+    const izquierdaLenintoyEnemigo = enemigo.x;
+    const arribaLenintoy = miLenintoy.y;
+    const abajoLenintoy = miLenintoy.y + miLenintoy.alto;
+    const derechaLenintoy = miLenintoy.x + miLenintoy.ancho;
+    const izquierdaLenintoy = miLenintoy.x;
+
+    if (
+        abajoLenintoy < arribaLenintoyEnemigo ||
+        arribaLenintoy > abajoLenintoyEnemigo ||
+        derechaLenintoy < izquierdaLenintoyEnemigo ||
+        izquierdaLenintoy > derechaLenintoyEnemigo
+    ) {
+        return;
+    } else {
+        detenerMovimiento();
+        seccionMapa.classList.replace('seccion-mapa', 'oculto');
+        seccionVidas.classList.replace('oculto', 'vidas');
+        contenedorBarras.classList.replace('oculto', 'vidas');
+        seccionAtaque.classList.replace('oculto', 'body__seleccionar');
+        mensajeEleccionAtaque.classList.replace('oculto', 'body__h2');
+        contenedorLenintoys.classList.replace('oculto', 'batalla');
+    }
 }
