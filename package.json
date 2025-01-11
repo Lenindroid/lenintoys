@@ -1,0 +1,14 @@
+{
+  "name": "lenintoys",
+  "version": "1.3.0",
+  "description": "A course project from platzi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "El laboratorio de Lenin",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
