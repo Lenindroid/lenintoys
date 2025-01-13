@@ -33,6 +33,7 @@ const seccionMapa = document.querySelector('#ver-mapa');
 const mapa = document.querySelector('#mapa');
 const lienzo = mapa.getContext('2d');
 
+let jugadorId = null;
 let lenintoys = [];
 let lenintoysEnemigos = [];
 let ataqueJugador = [];
@@ -65,12 +66,13 @@ const anchoMaximo = 350;
 if (anchoMapa > anchoMaximo) anchoMapa = anchoMaximo - 20;
 
 class Lenintoy {
-    constructor(nombre, foto, vida, fotoCara, x = 10 , y = 10) {
+    constructor(nombre, foto, vida, fotoCara, id = null) {
+        this.id = id;
         this.nombre = nombre;
         this.foto = foto;
         this.vida = vida;
-        this.x = x;
-        this.y = y;
+        this.x = aleatorio(0, 50);
+        this.y = aleatorio(0, 50);
         this.ataques = [];
         this.ancho = 80;
         this.alto = 80;
@@ -95,61 +97,35 @@ let hipodoge = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hi
 let cucho = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg');
 let jimi = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
 
-hipodoge.ataques.push(
+const HIPODOGE_ATAQUES = [
     { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
     { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
     { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
     { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
     { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
-)
+];
 
-cucho.ataques.push(
+const CUCHO_ATAQUES = [
     { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
     { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
     { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
     { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
     { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
-)
+];
 
-jimi.ataques.push(
+const JIMI_ATAQUES = [
     { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
     { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
     { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
     { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
     { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
-)
+];
 
-let hipodogeEnemigo = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hipodoge-cara.svg');
-let cuchoEnemigo = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg');
-let jimiEnemigo = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
-
-hipodogeEnemigo.ataques.push(
-    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
-)
-
-cuchoEnemigo.ataques.push(
-    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
-)
-
-jimiEnemigo.ataques.push(
-    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
-)
+hipodoge.ataques.push(...HIPODOGE_ATAQUES);
+cucho.ataques.push(...CUCHO_ATAQUES);
+jimi.ataques.push(...JIMI_ATAQUES);
 
 lenintoys.push(hipodoge, cucho, jimi);
-lenintoysEnemigos.push(hipodogeEnemigo, cuchoEnemigo, jimiEnemigo);
-let lenintoyEnemigoIndex = aleatorio(0, lenintoysEnemigos.length - 1);
 
 function aleatorio (min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -173,6 +149,21 @@ function iniciarJuego () {
     });
     botonLenintoy.addEventListener('click', seleccionarLenintoyJugador);
     botonReiniciar.addEventListener('click', reiniciarJuego);
+    unirseAlJuego();
+}
+
+function unirseAlJuego() {
+    fetch('http://localhost:3000/unirse')
+        .then((res)=>{
+            console.log(res); 
+            if(res.ok) {
+                res.text()
+                    .then((respuesta)=> {
+                        console.log(respuesta);
+                        jugadorId = respuesta;
+                    });
+            }
+        })
 }
 
 function teclaPresionada(event) {
@@ -182,13 +173,13 @@ function teclaPresionada(event) {
         case 'ArrowUp':
             moverArriba();
             break;
-        case 'A':
-        case 'a':
+        case 'D':
+        case 'd':
         case 'ArrowRight':
             moverDerecha();
             break;
-        case 'D':
-        case 'd':
+        case 'A':
+        case 'a':
         case 'ArrowLeft':
             moverIzquierda();
             break;
@@ -222,12 +213,24 @@ function seleccionarLenintoyJugador () {
         alert('SELECCIONA UN LENINTOY, PENDEJO');
         reiniciarJuego();
     }
+    seleccionarLenintoy(lenintoyJugador);
     iniciarMapa();
     seccionMapa.classList.replace('oculto', 'seccion-mapa');
     intervalo = setInterval(renderizar, 50);
     seccionAtaque.style.flexDirection = "row";
     extraerAtaques(lenintoyJugador);
-    seleccionarLenintoyEnemigo ();
+}
+
+function seleccionarLenintoy(lenintoyJugador) {
+    fetch(`http://localhost:3000/lenintoy/${jugadorId}`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            lenintoy: lenintoyJugador
+        })
+    });
 }
 
 function extraerAtaques (lenintoyJugador) {
@@ -261,32 +264,24 @@ function secuenciaAtaque (){
                 ataqueJugador.push('Fuego');
                 movimientos--;
                 boton.disabled = true;
+                enviarAtaque();
             }
             else if (e.target.textContent === '💧') {
                 ataqueJugador.push('Agua');
                 movimientos--;
                 boton.disabled = true;
+                enviarAtaque();
             } else {
                 ataqueJugador.push('Planta');
                 movimientos--;
                 boton.disabled = true;
+                enviarAtaque();
             }
-            atacaEnemigo();
         })
     }) 
 }
 
-function seleccionarLenintoyEnemigo() {
-    spanLenintoyEnemigo.innerHTML = lenintoysEnemigos[lenintoyEnemigoIndex].nombre;
-    ataquesEnemigo = lenintoysEnemigos[lenintoyEnemigoIndex].ataques;
-    LenintoyEnemigo.src = lenintoysEnemigos[lenintoyEnemigoIndex].foto;
-    secuenciaAtaque();
-}
-
-function atacaEnemigo () {
-    let ataqueAleatorio = aleatorio(0, ataquesEnemigo.length - 1);
-    ataqueEnemigo.push(ataquesEnemigo[ataqueAleatorio].nombre);
-    ataquesEnemigo.splice(ataqueAleatorio, 1);
+function enviarAtaque () {
     combate();
 }
 
@@ -353,10 +348,47 @@ function renderizar() {
         mapa.height
     );
     miLenintoy.renderizar();
-    lenintoysEnemigos[lenintoyEnemigoIndex].x = 300;
-    lenintoysEnemigos[lenintoyEnemigoIndex].y = 250;
-    lenintoysEnemigos[lenintoyEnemigoIndex].renderizar();
-    if (miLenintoy.velocidadX || miLenintoy.velocidadY) revisarColision(lenintoysEnemigos[lenintoyEnemigoIndex]);
+
+    enviarPosicion(miLenintoy.x, miLenintoy.y);
+    lenintoysEnemigos.forEach(lenintoy => {
+        lenintoy.renderizar();
+        revisarColision(lenintoy);
+    })
+}
+
+function enviarPosicion(x, y) {
+    fetch(`http://localhost:3000/lenintoy/${jugadorId}/posicion`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify({
+            x, //Así no pones x: x
+            y
+        })
+    })
+    .then(res => {
+        if (res.ok) {
+            res.json()
+                .then(({ enemigos }) => {
+                    lenintoysEnemigos = enemigos.map(enemigo => {
+                        const lenintoyNombre = enemigo.lenintoy.nombre || '';
+                        let lenintoyObjeto = null;
+                        if (lenintoyNombre == 'Hipodoge') {
+                            lenintoyObjeto = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hipodoge-cara.svg');
+                        } else if (lenintoyNombre == 'Cucho') {
+                            lenintoyObjeto = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg');
+                        } else if (lenintoyNombre == 'Jimi') {
+                            lenintoyObjeto = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
+                        }
+                        lenintoyObjeto.x = enemigo.x;
+                        lenintoyObjeto.y = enemigo.y;
+                        return lenintoyObjeto;
+                    });
+                    
+                })
+        }
+    })
 }
 
 function moverArriba() {
