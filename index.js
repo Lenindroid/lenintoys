@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const app = express();
 app.use(cors());
+app.use(express.static('public'));
 app.use(express.json())
 
 
@@ -75,24 +76,6 @@ app.post('/lenintoy/:jugadorId/posicion', (req, res)=> {
     })
     res.end();
 })
-
-/*
-app.post('/lenintoy/:jugadorId/ataques', (req, res)=>{
-    const jugadorId = req.params.jugadorId || '';
-    const ataque = req.body.ataque || '';
-    const jugadorIndex = jugadores.findIndex(jugador => jugadorId == jugador.id);
-    if (jugadorIndex >= 0) jugadores[jugadorIndex].asignarAtaque(ataque);
-    res.end();
-});
-
-app.get('/lenintoy/:jugadorId/ataques', (req, res)=> {
-    const jugadorId = req.params.jugadorId || '';
-    const jugador = jugadores.find(jugador => jugador.id == jugadorId);
-    res.send({
-        ataque: jugador.ataque || ''
-    })
-});
-*/
 
 app.post('/lenintoy/:jugadorId/ataques', (req, res) => {
     const jugadorId = req.params.jugadorId || '';

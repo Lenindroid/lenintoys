@@ -149,7 +149,7 @@ input:checked + label {
     font-weight: bold;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 420px) {
     .tarjetas {
         flex-direction: column;
     }
@@ -162,8 +162,9 @@ input:checked + label {
         flex-direction: column;
     }
 
-    #contenedor-barras {
-        display: hidden;
+    #barra-aliado {
+        position: absolute;
+        top: -3rem;
     }
 }
 

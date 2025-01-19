@@ -64,8 +64,13 @@ alturaMapa = (anchoMapa * 600) / 800;
 mapa.width = anchoMapa;
 mapa.height = alturaMapa;
 
-const anchoMaximo = 350;
-if (anchoMapa > anchoMaximo) anchoMapa = anchoMaximo - 20;
+const anchoMaximo = 800;
+if (anchoMapa > anchoMaximo) {
+    anchoMapa = anchoMaximo - 20;
+    mapa.width = anchoMapa;
+    alturaMapa = (anchoMapa * 600) / 800;
+    mapa.height = alturaMapa;
+}
 
 class Lenintoy {
     constructor(nombre, foto, vida, fotoCara, id = null) {
@@ -73,8 +78,8 @@ class Lenintoy {
         this.nombre = nombre;
         this.foto = foto;
         this.vida = vida;
-        this.x = aleatorio(0, 50);
-        this.y = aleatorio(0, 50);
+        this.x = aleatorio(0, 300);
+        this.y = aleatorio(0, 200);
         this.ataques = [];
         this.ancho = 80;
         this.alto = 80;
@@ -155,7 +160,7 @@ function iniciarJuego () {
 }
 
 function unirseAlJuego() {
-    fetch('http://localhost:3000/unirse')
+    fetch('http://192.168.100.102:3000/unirse')
         .then((res)=>{ 
             if(res.ok) {
                 res.text()
@@ -192,9 +197,6 @@ function teclaPresionada(event) {
 }
 
 function seleccionarLenintoyJugador () {
-    seccionLenintoy.classList.replace('body__seleccionar', 'oculto');
-    mensajeEleccionLenintoy.classList.replace('body__h2', 'oculto');
-
     if (hipodogeInput.checked){
         console.log('Haz seleccionado al tierno lenintoy agua Hipodoge.');
         spanLenintoyJugador.innerHTML = hipodogeInput.id;
@@ -212,9 +214,11 @@ function seleccionarLenintoyJugador () {
         lenintoyAliado.src = jimi.foto;
     } else {
         alert('SELECCIONA UN LENINTOY EN PRIMER LUGAR.');
-        reiniciarJuego();
+        return;
     }
     seleccionarLenintoy(lenintoyJugador);
+    seccionLenintoy.classList.replace('body__seleccionar', 'oculto');
+    mensajeEleccionLenintoy.classList.replace('body__h2', 'oculto');
     iniciarMapa();
     seccionMapa.classList.replace('oculto', 'seccion-mapa');
     intervalo = setInterval(renderizar, 50);
@@ -223,7 +227,7 @@ function seleccionarLenintoyJugador () {
 }
 
 function seleccionarLenintoy(lenintoyJugador) {
-    fetch(`http://localhost:3000/lenintoy/${jugadorId}`, {
+    fetch(`http://192.168.100.102:3000/lenintoy/${jugadorId}`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -299,7 +303,7 @@ const enviarAtaques = async () => {
     mensajeEsperaRival();
 
     // Envía el ataque al servidor
-    await fetch(`http://localhost:3000/lenintoy/${jugadorId}/ataques`, {
+    await fetch(`http://192.168.100.102:3000/lenintoy/${jugadorId}/ataques`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -319,7 +323,7 @@ const esperarAtaques = async () => {
 
     while (!listo) {
         try {
-            const res = await fetch(`http://localhost:3000/lenintoy/${enemigoId}/ataques`);
+            const res = await fetch(`http://192.168.100.102:3000/lenintoy/${enemigoId}/ataques`);
             if (res.ok) {
                 const { ataques, listo: ambosListos } = await res.json();
                 if (ambosListos) {
@@ -336,43 +340,6 @@ const esperarAtaques = async () => {
         await new Promise(resolve => setTimeout(resolve, 1000));
     }
 };
-
-
-
-/*
-function enviarAtaques () {
-    botones.forEach(boton =>{
-        boton.disabled = true;
-    });
-    mensajeEsperaRival();
-
-    fetch(`http://localhost:3000/lenintoy/${jugadorId}/ataques`, {
-        method: "post",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            ataque: ataqueJugador
-        })
-    });
-
-    intervalo = setInterval(obtenerAtaque, 50);
-    combate();
-}
-*/
-
-function obtenerAtaque() {
-    fetch(`http://localhost:3000/lenintoy/${enemigoId}/ataques`)
-        .then(res=> {
-            if (res.ok) {
-                res.json()
-                    .then(({ataques}) => {
-                        ataqueEnemigo = ataques;
-                        combate();
-                    })
-            }
-        })
-}
 
 function mensajes (resultado) {
     secccionResultado.innerHTML = resultado;
@@ -464,7 +431,7 @@ function renderizar() {
 }
 
 function enviarPosicion(x, y) {
-    fetch(`http://localhost:3000/lenintoy/${jugadorId}/posicion`, {
+    fetch(`http://192.168.100.102:3000/lenintoy/${jugadorId}/posicion`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
