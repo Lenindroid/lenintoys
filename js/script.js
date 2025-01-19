@@ -34,7 +34,9 @@ const mapa = document.querySelector('#mapa');
 const lienzo = mapa.getContext('2d');
 
 let jugadorId = null;
+let enemigoId = null;
 let lenintoys = [];
+let ataques = [];
 let lenintoysEnemigos = [];
 let ataqueJugador = [];
 let ataqueEnemigo = [];
@@ -98,27 +100,27 @@ let cucho = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.
 let jimi = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
 
 const HIPODOGE_ATAQUES = [
-    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
+    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269', gastado: false },
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269', gastado: false },
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269', gastado: false },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00', gastado: false },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832', gastado: false }
 ];
 
 const CUCHO_ATAQUES = [
-    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
+    { emoji: '💧', id: 'boton-agua', nombre: 'Agua', color: '#269', gastado: false },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00', gastado: false },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00', gastado: false },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00', gastado: false },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832', gastado: false }
 ];
 
 const JIMI_ATAQUES = [
-    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269' },
-    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' },
-    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832' }
+    { emoji:'💧', id: 'boton-agua', nombre: 'Agua', color: '#269', gastado: false },
+    { emoji:'🔥', id: 'boton-fuego', nombre: 'Fuego', color: '#ff1f00', gastado: false },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832', gastado: false },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832', gastado: false },
+    { emoji:'🌱', id: 'boton-planta', nombre: 'Planta', color: '#466832', gastado: false }
 ];
 
 hipodoge.ataques.push(...HIPODOGE_ATAQUES);
@@ -154,13 +156,12 @@ function iniciarJuego () {
 
 function unirseAlJuego() {
     fetch('http://localhost:3000/unirse')
-        .then((res)=>{
-            console.log(res); 
+        .then((res)=>{ 
             if(res.ok) {
                 res.text()
                     .then((respuesta)=> {
-                        console.log(respuesta);
                         jugadorId = respuesta;
+                        console.log(jugadorId);
                     });
             }
         })
@@ -210,7 +211,7 @@ function seleccionarLenintoyJugador () {
         lenintoyJugador = jimiInput.id;
         lenintoyAliado.src = jimi.foto;
     } else {
-        alert('SELECCIONA UN LENINTOY, PENDEJO');
+        alert('SELECCIONA UN LENINTOY EN PRIMER LUGAR.');
         reiniciarJuego();
     }
     seleccionarLenintoy(lenintoyJugador);
@@ -233,8 +234,15 @@ function seleccionarLenintoy(lenintoyJugador) {
     });
 }
 
+function seleccionarLenintoyEnemigo(enemigo) {
+    spanLenintoyEnemigo.innerHTML = enemigo.nombre;
+    ataquesEnemigo = enemigo.ataques;
+    LenintoyEnemigo.src = enemigo.foto;
+    secuenciaAtaque();
+}
+
 function extraerAtaques (lenintoyJugador) {
-    let ataques;
+    ataques;
     for (let i = 0; i < lenintoys.length; i++) {
         if (lenintoyJugador == lenintoys[i].nombre){
             ataques = lenintoys[i].ataques;
@@ -254,42 +262,126 @@ function mostrarAtaques (ataques) {
     botonAgua = document.getElementById('boton-agua');
     botonFuego = document.getElementById('boton-fuego');
     botonPlanta = document.getElementById('boton-planta');
-    botones= document.querySelectorAll('.bAtaque');
+    botones = document.querySelectorAll('.bAtaque');
 }
 
 function secuenciaAtaque (){
-    botones.forEach((boton) => {
+    botones.forEach((boton, index) => {
         boton.addEventListener('click', (e) =>{ //e es el evento mismo 
             if (e.target.textContent === '🔥') {
                 ataqueJugador.push('Fuego');
                 movimientos--;
-                boton.disabled = true;
-                enviarAtaque();
+                miLenintoy.ataques[index].gastado = true;
+                enviarAtaques();
             }
             else if (e.target.textContent === '💧') {
                 ataqueJugador.push('Agua');
                 movimientos--;
-                boton.disabled = true;
-                enviarAtaque();
+                ataques[index].gastado = true;
+                miLenintoy.ataques[index].gastado = true;
+                enviarAtaques();
             } else {
                 ataqueJugador.push('Planta');
                 movimientos--;
-                boton.disabled = true;
-                enviarAtaque();
+                ataques[index].gastado = true;
+                miLenintoy.ataques[index].gastado = true;
+                enviarAtaques();
             }
         })
     }) 
 }
 
-function enviarAtaque () {
+
+const enviarAtaques = async () => {
+    botones.forEach(boton => {
+        boton.disabled = true;
+    });
+    mensajeEsperaRival();
+
+    // Envía el ataque al servidor
+    await fetch(`http://localhost:3000/lenintoy/${jugadorId}/ataques`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ataque: ataqueJugador,
+            enemigo: enemigoId
+        })
+    });
+
+    // Espera los ataques del enemigo
+    await esperarAtaques();
+};
+
+const esperarAtaques = async () => {
+    let listo = false;
+
+    while (!listo) {
+        try {
+            const res = await fetch(`http://localhost:3000/lenintoy/${enemigoId}/ataques`);
+            if (res.ok) {
+                const { ataques, listo: ambosListos } = await res.json();
+                if (ambosListos) {
+                    ataqueEnemigo = ataques;
+                    listo = true;
+                    combate(); // Procede al combate
+                }
+            }
+        } catch (error) {
+            console.error("Error al obtener los ataques:", error);
+        }
+
+        // Espera un momento antes de reintentar
+        await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+};
+
+
+
+/*
+function enviarAtaques () {
+    botones.forEach(boton =>{
+        boton.disabled = true;
+    });
+    mensajeEsperaRival();
+
+    fetch(`http://localhost:3000/lenintoy/${jugadorId}/ataques`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ataque: ataqueJugador
+        })
+    });
+
+    intervalo = setInterval(obtenerAtaque, 50);
     combate();
+}
+*/
+
+function obtenerAtaque() {
+    fetch(`http://localhost:3000/lenintoy/${enemigoId}/ataques`)
+        .then(res=> {
+            if (res.ok) {
+                res.json()
+                    .then(({ataques}) => {
+                        ataqueEnemigo = ataques;
+                        combate();
+                    })
+            }
+        })
 }
 
 function mensajes (resultado) {
-    secccionMensajes.classList.replace('oculto', 'mensajes');
     secccionResultado.innerHTML = resultado;
     secccionAtaquesJugador.innerHTML = 'Tu lenintoy usó ' + ataqueJugador[ataqueJugador.length - 1];
     seccionAtaquesEnemigo.innerHTML = 'El lenintoy enemigo usó ' + ataqueEnemigo[ataqueEnemigo.length - 1];
+}
+
+function mensajeEsperaRival () {
+    secccionResultado.innerHTML = 'Esperando el ataque del rival';
 }
 
 function mensajeFinal (resultadoFinal) {
@@ -306,16 +398,31 @@ function mensajeFinal (resultadoFinal) {
 function revisarVidas (){
     if (vidasEnemigo == 0){
         mensajeFinal('Felcitaciones, tu lenintoy ha asesinado al lenintoy enemigo.');
+        botones.forEach(boton => {
+            boton.disabled = true;
+        });
     } else if (vidasJugador == 0) {
         mensajeFinal('Mis condolencias, tu lenintoy fue asesinado por el lenintoy enemigo.');
+        botones.forEach(boton => {
+            boton.disabled = true;
+        });
     } else if (movimientos == 0) {
         if (vidasEnemigo == vidasJugador) mensajeFinal('Los lenintoys se han cansado de pelear. Es un empate.');
         else if (vidasJugador > vidasEnemigo) mensajeFinal('El lenintoy enemigo se ha cansado. Tu lenintoy ganó el combate.');
         else mensajeFinal('Tu lenintoy es un cobarde y se retiró de la partida. El lenintoy enemigo ganó la partida.');
+        botones.forEach(boton => {
+            boton.disabled = true;
+        });
+    } else {
+        botones.forEach((boton, i) => {
+            if(!(miLenintoy.ataques[i].gastado)) boton.disabled = false;
+        });
+        secuenciaAtaque();
     }
 }
 
 function combate () {
+    clearInterval();
     if (ataqueJugador[ataqueJugador.length - 1] == ataqueEnemigo[ataqueEnemigo.length - 1]) {
         mensajes ('No tienen ningún efecto.');
     } else if (ataqueJugador[ataqueJugador.length - 1] == 'Agua' && ataqueEnemigo[ataqueEnemigo.length - 1] == 'Fuego' || ataqueJugador[ataqueJugador.length - 1] == 'Fuego' && ataqueEnemigo[ataqueEnemigo.length - 1] == 'Planta' || ataqueJugador[ataqueJugador.length - 1] == 'Planta' && ataqueEnemigo[ataqueEnemigo.length - 1] == 'Agua') {
@@ -375,11 +482,11 @@ function enviarPosicion(x, y) {
                         const lenintoyNombre = enemigo.lenintoy.nombre || '';
                         let lenintoyObjeto = null;
                         if (lenintoyNombre == 'Hipodoge') {
-                            lenintoyObjeto = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hipodoge-cara.svg');
+                            lenintoyObjeto = new Lenintoy('Hipodoge', './assets/hipodoge.svg', 5, './assets/hipodoge-cara.svg', enemigo.id);
                         } else if (lenintoyNombre == 'Cucho') {
-                            lenintoyObjeto = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg');
+                            lenintoyObjeto = new Lenintoy('Cucho', './assets/cucho.svg', 5, './assets/cucho-cara.svg', enemigo.id);
                         } else if (lenintoyNombre == 'Jimi') {
-                            lenintoyObjeto = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg');
+                            lenintoyObjeto = new Lenintoy('Jimi', './assets/jimi.svg', 5, './assets/jimi-cara.svg', enemigo.id);
                         }
                         lenintoyObjeto.x = enemigo.x;
                         lenintoyObjeto.y = enemigo.y;
@@ -445,11 +552,15 @@ function revisarColision(enemigo) {
         return;
     } else {
         detenerMovimiento();
+        clearInterval(intervalo);
+        enemigoId = enemigo.id;
         seccionMapa.classList.replace('seccion-mapa', 'oculto');
         seccionVidas.classList.replace('oculto', 'vidas');
         contenedorBarras.classList.replace('oculto', 'vidas');
         seccionAtaque.classList.replace('oculto', 'body__seleccionar');
         mensajeEleccionAtaque.classList.replace('oculto', 'body__h2');
         contenedorLenintoys.classList.replace('oculto', 'batalla');
+        secccionMensajes.classList.replace('oculto', 'mensajes');
+        seleccionarLenintoyEnemigo(enemigo);
     }
 }
